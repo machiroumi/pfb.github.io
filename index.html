@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор буста</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор буста</h1>
+        <div class="input-group">
+            <label for="boostType">Тип буста:</label>
+            <select id="boostType">
+                <option value="solo">Соло буст</option>
+                <option value="duo">Дуо буст</option>
+            </select>
+        </div>
+        <div class="input-group" id="soloInputs">
+            <label for="initialMMR">Изначальный ММР:</label>
+            <input type="number" id="initialMMR" placeholder="Введите изначальный ММР">
+            <label for="finalMMR">Конечный ММР:</label>
+            <input type="number" id="finalMMR" placeholder="Введите конечный ММР">
+            <button id="soloDoubleButton">Даблы</button>
+        </div>
+        <div class="input-group" id="duoInputs" style="display:none;">
+            <label for="clientMMR">ММР клиента:</label>
+            <input type="number" id="clientMMR" placeholder="Введите ММР клиента">
+            <label for="gameCount">Количество игр:</label>
+            <input type="number" id="gameCount" placeholder="Введите количество игр">
+            <button id="duoDoubleButton">Даблы</button>
+        </div>
+        <button onclick="calculatePrice()">Рассчитать цену</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('boostType').addEventListener('change', function() {
+            const soloInputs = document.getElementById('soloInputs');
+            const duoInputs = document.getElementById('duoInputs');
+            if (this.value === 'solo') {
+                soloInputs.style.display = 'block';
+                duoInputs.style.display = 'none';
+            } else {
+                soloInputs.style.display = 'none';
+                duoInputs.style.display = 'block';
+            }
+        });
+
+        const soloRates = [
+            { min: 1, max: 2000, rate: 110 },
+            { min: 2000, max: 3000, rate: 135 },
+            { min: 3000, max: 3500, rate: 165 },
+            { min: 3500, max: 4000, rate: 220 },
+            { min: 4000, max: 4500, rate: 275 },
+            { min: 4500, max: 5000, rate: 300 },
+            { min: 5000, max: 5500, rate: 385 },
+            { min: 5500, max: 6000, rate: 500 },
+            { min: 6000, max: 6500, rate: 550 },
+            { min: 6500, max: 7000, rate: 600 },
+            { min: 7000, max: 7500, rate: 700 },
+            { min: 7500, max: 8000, rate: 800 },
+            { min: 8000, max: 8500, rate: 900 },
+            { min: 8500, max: 9000, rate: 1000 },
+        ];
+
+        const duoRates = [
+            { min: 10, max: 2000, rate: 55 },
+            { min: 2000, max: 3000, rate: 65 },
+            { min: 3000, max: 3500, rate: 75 },
+            { min: 3500, max: 4000, rate: 90 },
+            { min: 4000, max: 4500, rate: 100 },
+            { min: 4500, max: 5000, rate: 135 },
+            { min: 5000, max: 5500, rate: 165 },
+            { min: 5500, max: 6000, rate: 275 },
+            { min: 6000, max: 6500, rate: 400 },
+            { min: 6500, max: 7000, rate: 500 },
+            { min: 7000, max: 7500, rate: 600 },
+            { min: 7500, max: 8000, rate: 700 },
+            { min: 8000, max: 8500, rate: 850 },
+            { min: 8500, max: 9000, rate: 1000 },
+        ];
+
+        function calculatePrice() {
+            const boostType = document.getElementById('boostType').value;
+            if (boostType === 'solo') {
+                const initialMMR = parseInt(document.getElementById('initialMMR').value);
+                const finalMMR = parseInt(document.getElementById('finalMMR').value);
+                let totalPrice = 0;
+                for (let i = initialMMR; i < finalMMR; i += 100) {
+                    const rate = soloRates.find(r => i >= r.min && i < r.max).rate;
+                    totalPrice += rate;
+                }
+                if (document.getElementById('soloDoubleButton').innerText === 'Даблы') {
+                    totalPrice *= 0.75;
+                }
+                document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
+            } else {
+                const clientMMR = parseInt(document.getElementById('clientMMR').value);
+                const gameCount = parseInt(document.getElementById('gameCount').value);
+                const rate = duoRates.find(r => clientMMR >= r.min && clientMMR < r.max).rate;
+                let totalPrice = rate * gameCount;
+                if (document.getElementById('duoDoubleButton').innerText === 'Даблы') {
+                    totalPrice *= 1.5;
+                }
+                document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
+            }
+        }
+
+        document.getElementById('soloDoubleButton').addEventListener('click', function() {
+            this.innerText = this.innerText === 'Даблы' ? 'Обычный' : 'Даблы';
+        });
+
+        document.getElementById('duoDoubleButton').addEventListener('click', function() {
+            this.innerText = this.innerText === 'Даблы' ? 'Обычный' : 'Даблы';
+        });
+    </script>
+</body>
+</html>
