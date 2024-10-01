@@ -6,12 +6,26 @@
     <title>Калькулятор буста</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
             max-width: 600px;
-            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
         }
         .input-group {
             margin-bottom: 15px;
@@ -19,18 +33,36 @@
         .input-group label {
             display: block;
             margin-bottom: 5px;
+            color: #555;
         }
-        .input-group input {
+        .input-group input,
+        .input-group select,
+        .input-group button {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             box-sizing: border-box;
+        }
+        .input-group button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .input-group button:hover {
+            background-color: #0056b3;
         }
         .result {
             margin-top: 20px;
             font-size: 18px;
             font-weight: bold;
+            color: #333;
+            text-align: center;
         }
-    </style>
+    </style>    
 </head>
 <body>
     <div class="container">
@@ -59,6 +91,7 @@
         <button onclick="calculatePrice()">Рассчитать цену</button>
         <div class="result" id="result"></div>
     </div>
+    
 
     <script>
         document.getElementById('boostType').addEventListener('change', function() {
