@@ -62,7 +62,7 @@
             color: #333;
             text-align: center;
         }
-    </style>    
+    </style>
 </head>
 <body>
     <div class="container">
@@ -91,7 +91,6 @@
         <button onclick="calculatePrice()">Рассчитать цену</button>
         <div class="result" id="result"></div>
     </div>
-    
 
     <script>
         document.getElementById('boostType').addEventListener('change', function() {
@@ -157,8 +156,16 @@
             } else {
                 const clientMMR = parseInt(document.getElementById('clientMMR').value);
                 const gameCount = parseInt(document.getElementById('gameCount').value);
-                const rate = duoRates.find(r => clientMMR >= r.min && clientMMR < r.max).rate;
-                let totalPrice = rate * gameCount;
+                let totalPrice = 0;
+                let currentMMR = clientMMR;
+
+                for (let i = 0; i < gameCount; i++) {
+                    const mmrIncrease = document.getElementById('duoDoubleButton').innerText === 'Даблы' ? 50 : 25;
+                    currentMMR += mmrIncrease;
+                    const rate = duoRates.find(r => currentMMR >= r.min && currentMMR < r.max).rate;
+                    totalPrice += rate;
+                }
+
                 if (document.getElementById('duoDoubleButton').innerText === 'Даблы') {
                     totalPrice *= 1.5;
                 }
