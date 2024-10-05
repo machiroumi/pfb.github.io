@@ -148,9 +148,9 @@
                 const initialMMR = parseInt(document.getElementById('initialMMR').value);
                 const finalMMR = parseInt(document.getElementById('finalMMR').value);
                 let totalPrice = 0;
-                for (let i = initialMMR; i < finalMMR; i += 100) {
+                for (let i = initialMMR; i < finalMMR; i++) {
                     const rate = soloRates.find(r => i >= r.min && i < r.max).rate;
-                    totalPrice += rate;
+                    totalPrice += rate / 100;
                 }
                 if (document.getElementById('soloDoubleButton').innerText === 'Даблы') {
                     totalPrice *= 0.75;
