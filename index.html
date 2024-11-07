@@ -209,7 +209,7 @@
                 let currentMMR = clientMMR;
 
                 for (let i = 0; i < gameCount; i++) {
-                    const mmrIncrease = document.getElementById('duoDoubleButton').innerText === 'Даблы' ? 49 : 25;
+                    const mmrIncrease = document.getElementById('duoDoubleButton').innerText === 'Даблы' ? 50 : 25;
                     currentMMR += mmrIncrease;
                     const rate = duoRates.find(r => currentMMR >= r.min && currentMMR < r.max).rate;
                     totalPrice += rate;
