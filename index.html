@@ -75,6 +75,8 @@
             <select id="boostType">
                 <option value="solo">Соло буст</option>
                 <option value="duo">Дуо буст</option>
+                <option value="honor">Буст порядочности</option>
+                <option value="hours">Отыгрыш часов</option>
             </select>
         </div>
         <div class="input-group" id="soloInputs">
@@ -91,6 +93,18 @@
             <input type="number" id="gameCount" placeholder="Введите количество игр">
             <button id="duoDoubleButton">Даблы</button>
         </div>
+        <div class="input-group" id="honorInputs" style="display:none;">
+            <label for="clientMMRHonor">ММР клиента:</label>
+            <input type="number" id="clientMMRHonor" placeholder="Введите ММР">
+            <label for="initialHonor">Начальная порядочность:</label>
+            <input type="number" id="initialHonor" placeholder="Введите начальную порядочность">
+            <label for="finalHonor">Конечная порядочность:</label>
+            <input type="number" id="finalHonor" placeholder="Введите конечную порядочность">
+        </div>
+        <div class="input-group" id="hoursInputs" style="display:none;">
+            <label for="hoursCount">Количество часов:</label>
+            <input type="number" id="hoursCount" placeholder="Введите количество часов">
+        </div>
         <button onclick="calculatePrice()">Рассчитать цену</button>
         <div class="result" id="result"></div>
     </div>
@@ -99,12 +113,28 @@
         document.getElementById('boostType').addEventListener('change', function() {
             const soloInputs = document.getElementById('soloInputs');
             const duoInputs = document.getElementById('duoInputs');
+            const honorInputs = document.getElementById('honorInputs');
+            const hoursInputs = document.getElementById('hoursInputs');
             if (this.value === 'solo') {
                 soloInputs.style.display = 'block';
                 duoInputs.style.display = 'none';
-            } else {
+                honorInputs.style.display = 'none';
+                hoursInputs.style.display = 'none';
+            } else if (this.value === 'duo') {
                 soloInputs.style.display = 'none';
                 duoInputs.style.display = 'block';
+                honorInputs.style.display = 'none';
+                hoursInputs.style.display = 'none';
+            } else if (this.value === 'honor') {
+                soloInputs.style.display = 'none';
+                duoInputs.style.display = 'none';
+                honorInputs.style.display = 'block';
+                hoursInputs.style.display = 'none';
+            } else if (this.value === 'hours') {
+                soloInputs.style.display = 'none';
+                duoInputs.style.display = 'none';
+                honorInputs.style.display = 'none';
+                hoursInputs.style.display = 'block';
             }
         });
 
@@ -123,6 +153,14 @@
             { min: 7500, max: 8000, rate: 800 },
             { min: 8000, max: 8500, rate: 900 },
             { min: 8500, max: 9000, rate: 1000 },
+            { min: 9000, max: 9500, rate: 1500 },
+            { min: 9500, max: 10000, rate: 1900 },
+            { min: 10000, max: 10500, rate: 2500 },
+            { min: 10500, max: 11000, rate: 3000 },
+            { min: 11000, max: 11500, rate: 3600 },
+            { min: 11500, max: 12000, rate: 5000 },
+            { min: 12000, max: 12500, rate: 6500 },
+            { min: 12500, max: 13000, rate: 7500 },
         ];
 
         const duoRates = [
@@ -140,6 +178,14 @@
             { min: 7500, max: 8000, rate: 700 },
             { min: 8000, max: 8500, rate: 850 },
             { min: 8500, max: 9000, rate: 1000 },
+            { min: 9000, max: 9500, rate: 1200 },
+            { min: 9500, max: 10000, rate: 1500 },
+            { min: 10000, max: 10500, rate: 1800 },
+            { min: 10500, max: 11000, rate: 2000 },
+            { min: 11000, max: 11500, rate: 2500 },
+            { min: 11500, max: 12000, rate: 3000 },
+            { min: 12000, max: 12500, rate: 3500 },
+            { min: 12500, max: 13000, rate: 4000 },
         ];
 
         function calculatePrice() {
@@ -156,14 +202,14 @@
                     totalPrice *= 0.75;
                 }
                 document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
-            } else {
+            } else if (boostType === 'duo') {
                 const clientMMR = parseInt(document.getElementById('clientMMR').value);
                 const gameCount = parseInt(document.getElementById('gameCount').value);
                 let totalPrice = 0;
                 let currentMMR = clientMMR;
 
                 for (let i = 0; i < gameCount; i++) {
-                    const mmrIncrease = document.getElementById('duoDoubleButton').innerText === 'Даблы' ? 50 : 25;
+                    const mmrIncrease = document.getElementById('duoDoubleButton').innerText === 'Даблы' ? 49 : 25;
                     currentMMR += mmrIncrease;
                     const rate = duoRates.find(r => currentMMR >= r.min && currentMMR < r.max).rate;
                     totalPrice += rate;
@@ -172,6 +218,26 @@
                 if (document.getElementById('duoDoubleButton').innerText === 'Даблы') {
                     totalPrice *= 1.5;
                 }
+                document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
+            } else if (boostType === 'honor') {
+                const clientMMR = parseInt(document.getElementById('clientMMRHonor').value);
+                const initialHonor = parseInt(document.getElementById('initialHonor').value);
+                const finalHonor = parseInt(document.getElementById('finalHonor').value);
+                let totalPrice = 0;
+                const honorIncrease = finalHonor - initialHonor;
+
+                if (clientMMR >= 5600) {
+                    totalPrice = (honorIncrease / 1000) * 2000;
+                } else if (clientMMR >= 3000) {
+                    totalPrice = (honorIncrease / 1000) * 1500;
+                } else {
+                    totalPrice = (honorIncrease / 1000) * 1000;
+                }
+
+                document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
+            } else if (boostType === 'hours') {
+                const hoursCount = parseInt(document.getElementById('hoursCount').value);
+                const totalPrice = hoursCount * 60;
                 document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
             }
         }
