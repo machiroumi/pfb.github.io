@@ -15,6 +15,7 @@
             align-items: center;
             height: 100vh;
             color: #fff;
+            position: relative;
         }
         .container {
             background-color: #1e1e1e;
@@ -23,6 +24,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 600px;
+            position: relative;
+            z-index: 1;
         }
         h1 {
             text-align: center;
@@ -64,6 +67,44 @@
             font-weight: bold;
             color: #bb86fc;
             text-align: center;
+        }
+        
+        /* Новая панель */
+        .info-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1e1e1e;
+            border: 1px solid #555;
+            border-radius: 8px;
+            padding: 15px;
+            width: 250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .info-panel h3 {
+            color: #bb86fc;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .info-panel p {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+        .info-panel a {
+            display: block;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .info-panel a:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -107,6 +148,13 @@
         </div>
         <button onclick="calculatePrice()">Рассчитать цену</button>
         <div class="result" id="result"></div>
+    </div>
+
+    <!-- Новая панель -->
+    <div class="info-panel">
+        <h3>Информация</h3>
+        <p>Через некоторое время прекращаю поддержку калькулятора. Исходный код можно забрать у меня в личке. Вопросы туда-же</p>
+        <a href="https://t.me/fuckdekids" target="_blank">Для связи (Telegram)</a>
     </div>
 
     <script>
