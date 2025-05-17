@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор буста</title>
+    <title>Кнопка</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -15,93 +15,41 @@
             align-items: center;
             height: 100vh;
             color: #fff;
-            position: relative;
-        }
-        .container {
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 600px;
-            position: relative;
-            z-index: 1;
-        }
-        h1 {
-            text-align: center;
-            color: #bb86fc;
-        }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #bb86fc;
-        }
-        .input-group input,
-        .input-group select,
-        .input-group button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #555;
-            border-radius: 5px;
-            box-sizing: border-box;
-            background-color: #333;
-            color: #fff;
-        }
-        .input-group button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .input-group button:hover {
-            background-color: #0056b3;
-        }
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #bb86fc;
-            text-align: center;
         }
         
-        /* Новая панель */
         .info-panel {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
             background-color: #1e1e1e;
             border: 1px solid #555;
             border-radius: 8px;
-            padding: 15px;
-            width: 250px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            text-align: center;
         }
         .info-panel h3 {
             color: #bb86fc;
             margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 16px;
+            margin-bottom: 20px;
+            font-size: 24px;
         }
         .info-panel p {
-            font-size: 14px;
-            margin-bottom: 15px;
+            font-size: 16px;
+            margin-bottom: 30px;
             color: #ccc;
+            line-height: 1.5;
         }
         .info-panel a {
             display: block;
             background-color: #007BFF;
             color: white;
             text-align: center;
-            padding: 8px 0;
+            padding: 15px 0;
             border-radius: 5px;
             text-decoration: none;
             transition: background-color 0.3s;
+            font-size: 18px;
+            font-weight: bold;
         }
         .info-panel a:hover {
             background-color: #0056b3;
@@ -109,194 +57,10 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Калькулятор буста</h1>
-        <div class="input-group">
-            <label for="boostType">Тип буста:</label>
-            <select id="boostType">
-                <option value="solo">Соло буст</option>
-                <option value="duo">Дуо буст</option>
-                <option value="honor">Буст порядочности</option>
-                <option value="hours">Отыгрыш часов</option>
-            </select>
-        </div>
-        <div class="input-group" id="soloInputs">
-            <label for="initialMMR">Изначальный ММР:</label>
-            <input type="number" id="initialMMR" placeholder="Введите изначальный ММР">
-            <label for="finalMMR">Конечный ММР:</label>
-            <input type="number" id="finalMMR" placeholder="Введите конечный ММР">
-            <button id="soloDoubleButton">Даблы</button>
-        </div>
-        <div class="input-group" id="duoInputs" style="display:none;">
-            <label for="clientMMR">ММР клиента:</label>
-            <input type="number" id="clientMMR" placeholder="Введите ММР клиента">
-            <label for="gameCount">Количество игр:</label>
-            <input type="number" id="gameCount" placeholder="Введите количество игр">
-            <button id="duoDoubleButton">Даблы</button>
-        </div>
-        <div class="input-group" id="honorInputs" style="display:none;">
-            <label for="clientMMRHonor">ММР клиента:</label>
-            <input type="number" id="clientMMRHonor" placeholder="Введите ММР">
-            <label for="initialHonor">Начальная порядочность:</label>
-            <input type="number" id="initialHonor" placeholder="Введите начальную порядочность">
-            <label for="finalHonor">Конечная порядочность:</label>
-            <input type="number" id="finalHonor" placeholder="Введите конечную порядочность">
-        </div>
-        <div class="input-group" id="hoursInputs" style="display:none;">
-            <label for="hoursCount">Количество часов:</label>
-            <input type="number" id="hoursCount" placeholder="Введите количество часов">
-        </div>
-        <button onclick="calculatePrice()">Рассчитать цену</button>
-        <div class="result" id="result"></div>
-    </div>
-
-    <!-- Новая панель -->
     <div class="info-panel">
         <h3>Информация</h3>
-        <p>Через некоторое время прекращаю поддержку калькулятора. Исходный код можно забрать у меня в личке. Вопросы туда-же</p>
+        <p>Калькулятор более не поддерживается.</p>
         <a href="https://t.me/fuckdekids" target="_blank">Для связи (Telegram)</a>
     </div>
-
-    <script>
-        document.getElementById('boostType').addEventListener('change', function() {
-            const soloInputs = document.getElementById('soloInputs');
-            const duoInputs = document.getElementById('duoInputs');
-            const honorInputs = document.getElementById('honorInputs');
-            const hoursInputs = document.getElementById('hoursInputs');
-            if (this.value === 'solo') {
-                soloInputs.style.display = 'block';
-                duoInputs.style.display = 'none';
-                honorInputs.style.display = 'none';
-                hoursInputs.style.display = 'none';
-            } else if (this.value === 'duo') {
-                soloInputs.style.display = 'none';
-                duoInputs.style.display = 'block';
-                honorInputs.style.display = 'none';
-                hoursInputs.style.display = 'none';
-            } else if (this.value === 'honor') {
-                soloInputs.style.display = 'none';
-                duoInputs.style.display = 'none';
-                honorInputs.style.display = 'block';
-                hoursInputs.style.display = 'none';
-            } else if (this.value === 'hours') {
-                soloInputs.style.display = 'none';
-                duoInputs.style.display = 'none';
-                honorInputs.style.display = 'none';
-                hoursInputs.style.display = 'block';
-            }
-        });
-
-      const soloRates = [
-    { min: 1, max: 2000, rate: 125 },
-    { min: 2000, max: 3000, rate: 150 },
-    { min: 3000, max: 3500, rate: 185 },
-    { min: 3500, max: 4000, rate: 250 },
-    { min: 4000, max: 4500, rate: 300 },
-    { min: 4500, max: 5000, rate: 330 },
-    { min: 5000, max: 5500, rate: 400 },
-    { min: 5500, max: 6000, rate: 550 },
-    { min: 6000, max: 6500, rate: 600 },
-    { min: 6500, max: 7000, rate: 650 },
-    { min: 7000, max: 7500, rate: 750 },
-    { min: 7500, max: 8000, rate: 850 },
-    { min: 8000, max: 8500, rate: 950 },
-    { min: 8500, max: 9000, rate: 1500 }, // Исправлено значение rate
-    { min: 9000, max: 9500, rate: 1750 }, // Исправлено значение rate
-    { min: 9500, max: 10000, rate: 2000 }, // Исправлено значение rate
-    { min: 10000, max: 10500, rate: 2500 },
-    { min: 10500, max: 11000, rate: 3000 }, // Исправлено значение rate
-    { min: 11000, max: 11500, rate: 3500 }, // Исправлено значение rate
-    { min: 11500, max: 12000, rate: 4000 }, // Исправлено значение rate
-    { min: 12000, max: 12500, rate: 5000 }, // Исправлено значение rate
-    { min: 12500, max: 13000, rate: 6000 }, // Исправлено значение rate
-];
-
-        const duoRates = [
-            { min: 10, max: 2000, rate: 55 },
-            { min: 2000, max: 3000, rate: 65 },
-            { min: 3000, max: 3500, rate: 75 },
-            { min: 3500, max: 4000, rate: 90 },
-            { min: 4000, max: 4500, rate: 100 },
-            { min: 4500, max: 5000, rate: 135 },
-            { min: 5000, max: 5500, rate: 165 },
-            { min: 5500, max: 6000, rate: 200 },
-            { min: 6000, max: 6500, rate: 300 },
-            { min: 6500, max: 7000, rate: 400 },
-            { min: 7000, max: 7500, rate: 500 },
-            { min: 7500, max: 8000, rate: 700 },
-            { min: 8000, max: 8500, rate: 850 },
-            { min: 8500, max: 9000, rate: 1000 },
-            { min: 9000, max: 9500, rate: 1200 },
-            { min: 9500, max: 10000, rate: 1500 },
-            { min: 10000, max: 10500, rate: 1800 },
-            { min: 10500, max: 11000, rate: 2000 },
-            { min: 11000, max: 11500, rate: 2500 },
-            { min: 11500, max: 12000, rate: 3000 },
-            { min: 12000, max: 12500, rate: 3500 },
-            { min: 12500, max: 13000, rate: 4000 },
-        ];
-
-        function calculatePrice() {
-            const boostType = document.getElementById('boostType').value;
-            if (boostType === 'solo') {
-                const initialMMR = parseInt(document.getElementById('initialMMR').value);
-                const finalMMR = parseInt(document.getElementById('finalMMR').value);
-                let totalPrice = 0;
-                for (let i = initialMMR; i < finalMMR; i++) {
-                    const rate = soloRates.find(r => i >= r.min && i < r.max).rate;
-                    totalPrice += rate / 100;
-                }
-                if (document.getElementById('soloDoubleButton').innerText === 'Даблы') {
-                    totalPrice *= 0.75;
-                }
-                document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
-            } else if (boostType === 'duo') {
-                const clientMMR = parseInt(document.getElementById('clientMMR').value);
-                const gameCount = parseInt(document.getElementById('gameCount').value);
-                let totalPrice = 0;
-                let currentMMR = clientMMR;
-
-                for (let i = 0; i < gameCount; i++) {
-                    const mmrIncrease = document.getElementById('duoDoubleButton').innerText === 'Даблы' ? 50 : 25;
-                    currentMMR += mmrIncrease;
-                    const rate = duoRates.find(r => currentMMR >= r.min && currentMMR < r.max).rate;
-                    totalPrice += rate;
-                }
-
-                if (document.getElementById('duoDoubleButton').innerText === 'Даблы') {
-                    totalPrice *= 1.5;
-                }
-                document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
-            } else if (boostType === 'honor') {
-                const clientMMR = parseInt(document.getElementById('clientMMRHonor').value);
-                const initialHonor = parseInt(document.getElementById('initialHonor').value);
-                const finalHonor = parseInt(document.getElementById('finalHonor').value);
-                let totalPrice = 0;
-                const honorIncrease = finalHonor - initialHonor;
-
-                if (clientMMR >= 5600) {
-                    totalPrice = (honorIncrease / 1000) * 2000;
-                } else if (clientMMR >= 3000) {
-                    totalPrice = (honorIncrease / 1000) * 1500;
-                } else {
-                    totalPrice = (honorIncrease / 1000) * 1000;
-                }
-
-                document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
-            } else if (boostType === 'hours') {
-                const hoursCount = parseInt(document.getElementById('hoursCount').value);
-                const totalPrice = hoursCount * 60;
-                document.getElementById('result').innerText = `Цена: ${totalPrice.toFixed(2)} руб.`;
-            }
-        }
-
-        document.getElementById('soloDoubleButton').addEventListener('click', function() {
-            this.innerText = this.innerText === 'Даблы' ? 'Обычный' : 'Даблы';
-        });
-
-        document.getElementById('duoDoubleButton').addEventListener('click', function() {
-            this.innerText = this.innerText === 'Даблы' ? 'Обычный' : 'Даблы';
-        });
-    </script>
 </body>
 </html>
